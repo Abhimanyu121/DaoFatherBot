@@ -1,8 +1,11 @@
 import { connect, describeScript } from "@aragon/connect";
+import { TokenManager } from '@aragon/connect-thegraph-tokens'
 import {Voting} from '@aragon/connect-thegraph-voting'
 const EMPTY_SCRIPT = "0x00000001";
+const TOKENS_APP_ADDRESS = "0x459af03894cb2ed9bfad56c9bfeb4e63ad182736"
+const TOKENS_APP_SUBGRAPH_URL ="https://api.thegraph.com/subgraphs/name/aragon/aragon-tokens-rinkeby"
 
-const fetch = async () =>{
+const fetchVotes = async () =>{
     const org = await connect('0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C', 'thegraph', { chainId: 4 })
     const apps = await org.apps()
     const voting = new Voting(
@@ -26,4 +29,15 @@ async function processVote(vote, apps) {
   return { ...vote, metadata: description };
 }
 
-fetch()
+const fetchTokenHolders = async() => {
+  const org = await connect('0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C', 'thegraph', { chainId: 4 })
+  const apps = await org.apps()
+
+  const tokenManager = new TokenManager(
+    TOKENS_APP_ADDRESS,
+    TOKENS_APP_SUBGRAPH_URL
+  )
+  return await tokenManager.token()
+}
+fetchTokenHolders()
+fetchVotes()
