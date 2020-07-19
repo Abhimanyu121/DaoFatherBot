@@ -1,6 +1,10 @@
 import TeleBot from "telebot";
-import { fetchVotes } from "./connector";
-
+// import { fetchVotes } from "./connector";
+import * as firebase from "firebase/app";
+import * as credentials from './config.json';
+import "firebase/firestore";
+import {ethAddressVerify} from './utils'
+import * as admin from 'firebase-admin';
 const bot = new TeleBot({
   token: "1044656290:AAE7msbGCW2SaVxz88EXBkuyx2GxnjKwqAw",
   usePlugins: ["askUser"],
@@ -9,13 +13,44 @@ const bot = new TeleBot({
 bot.on("/start", async (msg) => {
   console.log(msg);
   const id = msg.chat.id;
+  firebase.initializeApp(credentials);
+  admin.initializeApp({
+    credential: credentials
+  })
+  const db = admin.firestore();
+  const doc = await db.collection('daos').doc(id).get();
+  if (!doc.exists) {
+    return bot.sendMessage(id, "You have already registered your DAO in this group");
+  } else {
+    return bot.sendMessage(id, "Send\n\/register org_address\nExample:\n\/register 0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C");
+  }
 
-  const votes = await fetchVotes();
-  console.log(votes);
-  // Ask user name
-  return bot.sendMessage(id, votes[0]);
+
 });
 
+bot.on("/register", async (msg) => {
+  console.log(msg);
+  const id = msg.chat.id;
+  admin.initializeApp({
+    credential: credentials
+  })
+  const db = admin.firestore();
+  const doc = await db.collection('daos').doc(id).get();
+  if (!doc.exists) {
+    return bot.sendMessage(id, "You have already registered your DAO in this group");
+  } else {
+    if(ethAddressVerify(msg.text)){
+      db.collection('daos').doc(id).set({
+        org: msg.text
+      })
+    }else {
+      return bot.sendMessage(id, "Invalid address");
+
+    }
+  }
+
+
+});
 // Ask name event
 bot.on("ask.name", (msg) => {
   const id = msg.chat.id;

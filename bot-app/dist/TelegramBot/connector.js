@@ -5,7 +5,6 @@
 // const TOKENS_APP_ADDRESS = "0x459af03894cb2ed9bfad56c9bfeb4e63ad182736";
 // const TOKENS_APP_SUBGRAPH_URL =
 //   "https://api.thegraph.com/subgraphs/name/aragon/aragon-tokens-rinkeby";
-
 // export const fetchVotes = async () => {
 //   const org = await connect(
 //     "0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C",
@@ -27,16 +26,13 @@
 //   console.log(processedVotes);
 //   return processedVotes;
 // };
-
 // export const processVote = async (vote: any, apps: any) => {
 //   if (vote.script === EMPTY_SCRIPT) {
 //     return vote;
 //   }
-
 //   const [{ description }] = await describeScript(vote.script, apps);
 //   return { ...vote, metadata: description };
 // };
-
 // export const fetchTokenHolders = async () => {
 //   const org = await connect(
 //     "0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C",
@@ -44,7 +40,6 @@
 //     { chainId: 4 }
 //   );
 //   const apps = await org.apps();
-
 //   const tokenManager = new TokenManager(
 //     TOKENS_APP_ADDRESS,
 //     TOKENS_APP_SUBGRAPH_URL
@@ -52,3 +47,4 @@
 //   return await tokenManager.token();
 // };
 // fetchVotes()
+//# sourceMappingURL=connector.js.map

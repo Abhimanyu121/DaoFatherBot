@@ -1,1 +1,2 @@
 /bot-app/node_modules
+/bot-app/src/TelegramBot/config.json
