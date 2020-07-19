@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aragon/connect": "^0.4.2",
+    "@aragon/connect-thegraph-voting": "^0.4.2",
     "nodemon": "^2.0.4",
     "telebot": "^1.4.1"
   }
