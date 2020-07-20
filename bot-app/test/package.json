@@ -1,0 +1,19 @@
+{
+  "name": "argon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "connector.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm-run-all dev:start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aragon/connect": "^0.4.2",
+    "@aragon/connect-thegraph-tokens": "^0.4.2",
+    "@aragon/connect-thegraph-voting": "^0.4.2",
+    "firebase-admin": "^9.0.0",
+    "telebot": "^1.4.1"
+  }
+}
