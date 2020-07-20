@@ -20,21 +20,21 @@ const fetchVotes = async () => {
     false
   );
   const votes = await voting.votes();
-  // const processedVotes = await Promise.all(
-  //   votes.map(async (vote) => processVote(vote, apps))
-  // );
-  console.log(org)
-  // processedVotes.reverse();
-  // console.log(processedVotes);
-  //return processedVotes;
+  const processedVotes = await Promise.all(
+    votes.map(async (vote) => processVote(vote, apps, org.provider))
+  );
+  //console.log(org)
+  processedVotes.reverse();
+  console.log(processedVotes);
+  return processedVotes;
 };
 
-const processVote = async (vote, apps) => {
+const processVote = async (vote, apps, provider) => {
   if (vote.script === EMPTY_SCRIPT) {
     return vote;
   }
 
-  const [{ description }] = await connect.describeScript(vote.script, apps);
+  const [{ description }] = await connect.describeScript(vote.script, apps, provider);
   return { ...vote, metadata: description };
 };
 
@@ -52,4 +52,3 @@ const fetchTokenHolders = async () => {
   );
   return await tokenManager.token();
 };
-//fetchVotes()
