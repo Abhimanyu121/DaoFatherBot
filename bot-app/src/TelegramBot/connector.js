@@ -42,7 +42,6 @@ const processVote = async (vote, apps, provider) => {
 };
 
 const fetchTokenHolders = async () => {
-
   const tokenManager = new TokenManager.TokenManager(
     TOKENS_APP_ADDRESS,
     TOKENS_APP_SUBGRAPH_URL

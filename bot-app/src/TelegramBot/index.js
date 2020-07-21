@@ -81,31 +81,55 @@ bot.on("/menu", async (msg) => {
 
 bot.on("/proposals", async (msg) => {
   const proposals = await connect.fetchVotes();
-  console.log(proposals);
-  const completesProposalText = proposals
-    .filter((p) => p.executed)
-    .map(
-      (p, i) =>
-        "*Proposal " +
-        (i + 1) +
-        ":* " +
-        p.metadata +
-        " Started at " +
-        moment.unix(p.startDate).format("YYYY-MM-DD HH:mm")
-    )
-    .join("\n");
-  const ongoingProposalText = proposals
-    .filter((p) => !p.executed)
-    .map(
-      (p, i) =>
-        "*Proposal " +
-        (i + 1) +
-        ":* " +
-        p.metadata +
-        " Started at " +
-        moment.unix(p.startDate).format("YYYY-MM-DD HH:mm")
-    )
-    .join("\n");
+  let completesProposalText = await Promise.all(
+    proposals
+      .filter((p) => p.executed)
+      .map(async (p, i) => {
+        return getProposalLink(
+          msg.chat.id,
+          parseInt(p.id.split("-")[1].split(":")[1]),
+          p.id.split("-")[0].split(":")[1]
+        ).then((genLink) => {
+          return (
+            "*Proposal " +
+            (i + 1) +
+            ":* " +
+            p.metadata +
+            " Started at " +
+            moment.unix(p.startDate).format("YYYY-MM-DD HH:mm") +
+            "\n[Click here to go to the proposal](" +
+            genLink +
+            ")"
+          );
+        });
+      })
+  );
+  completesProposalText = completesProposalText.join("\n");
+  let ongoingProposalText = await Promise.all(
+    proposals
+      .filter((p) => !p.executed)
+      .map(async (p, i) => {
+        return getProposalLink(
+          msg.chat.id,
+          parseInt(p.id.split("-")[1].split(":")[1]),
+          p.id.split("-")[0].split(":")[1]
+        ).then((genLink) => {
+          return (
+            "*Proposal " +
+            (i + 1) +
+            ":* " +
+            p.metadata +
+            " Started at " +
+            moment.unix(p.startDate).format("YYYY-MM-DD HH:mm") +
+            "\n[Click here to go to the proposal](" +
+            genLink +
+            ")"
+          );
+        });
+      })
+  );
+  ongoingProposalText = ongoingProposalText.join("\n");
+
   return bot.sendMessage(
     msg.chat.id,
     `*Ongoing Proposals:*\n\n${ongoingProposalText}\n\n*Completed Proposals:*\n\n${completesProposalText}\n\nUse /menu to see menu again.`,
@@ -117,11 +141,18 @@ bot.on("/proposals", async (msg) => {
 });
 
 bot.on("/token", async (msg) => {
-  const tokens = await connect.fetchTokenHolders();
-  console.log(tokens);
-  return bot.sendMessage(msg.chat.id, "Use /menu to see menu again.", {
-    replyMarkup: "hide",
-  });
+  const token = await connect.fetchTokenHolders();
+  console.log(token);
+  const tokenLink = await getTokenLink(token.name, token.appAddress);
+  console.log(tokenLink);
+  return bot.sendMessage(
+    msg.chat.id,
+    `*Token Details:*\n\n*Token Name:* ${token.name} - ${token.symbol}\n*Token Address:* ${token.address}\n*Number of holders:* ${token.totalSupply}\n\n[Click here to see all the holders](${tokenLink})\n\nUse /menu to see menu again.`,
+    {
+      replyMarkup: "hide",
+      parseMode: "Markdown",
+    }
+  );
 });
 
 bot.on("/hide", (msg) => {
@@ -138,12 +169,25 @@ bot.on("callbackQuery", (msg) => {
     true
   );
 });
-const proposalLink  = (chatid, number, address ) =>{
+
+const getProposalLink = async (chatid, number, address) => {
   const db = admin.firestore();
-  const doc = await db.collection('daos').doc(chatid.toString()).get();
-  const name = doc["name"]
-  return "https://rinkeby.aragon.org/#/"+name+"/"+address+"/vote/"+number;
-}
+  const doc = await db.collection("daos").doc(chatid.toString()).get();
+  const name = doc.get("name");
+  console.log(name);
+  return (
+    "https://rinkeby.aragon.org/#/" + name + "/" + address + "/vote/" + number
+  );
+};
+
+const getTokenLink = async (chatid, address) => {
+  // const db = admin.firestore();
+  // const doc = await db.collection("daos").doc(chatid.toString()).get();
+  // const name = doc.get("name");
+  // console.log(name);
+  return "https://rinkeby.aragon.org/#/" + chatid + "/" + address;
+};
+
 module.exports = connectTelegram = () => {
   bot.start();
 };
