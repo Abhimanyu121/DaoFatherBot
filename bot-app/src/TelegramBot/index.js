@@ -91,7 +91,12 @@ bot.on("callbackQuery", (msg) => {
     true
   );
 });
-
+const proposalLink  = (chatid, number, address ) =>{
+  const db = admin.firestore();
+  const doc = await db.collection('daos').doc(chatid.toString()).get();
+  const name = doc["name"]
+  return "https://rinkeby.aragon.org/#/"+name+"/"+address+"/vote/"+number;
+}
 module.exports = connectTelegram = () => {
   bot.start();
 };

@@ -107,3 +107,9 @@ bot.on('callbackQuery', msg => {
     // User message alert
     return bot.answerCallbackQuery(msg.id, `Inline button callback: ${ msg.data }`, true);
 });
+const proposalLink  = (chatid, number, address ) =>{
+  const db = admin.firestore();
+  const doc = await db.collection('daos').doc(chatid.toString()).get();
+  const name = doc["name"]
+  return "https://rinkeby.aragon.org/#/"+name+"/"+address+"/vote/"+number;
+}

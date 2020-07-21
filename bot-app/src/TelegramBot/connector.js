@@ -46,10 +46,9 @@ const fetchTokenHolders = async () => {
   );
   const apps = await org.apps();
 
-  const tokenManager = new TokenManager(
+  const tokenManager = new TokenManager.TokenManager(
     TOKENS_APP_ADDRESS,
     TOKENS_APP_SUBGRAPH_URL
   );
   return await tokenManager.token();
 };
-//fetchVotes()

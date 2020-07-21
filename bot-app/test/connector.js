@@ -39,16 +39,17 @@ const processVote = async (vote, apps, provider) => {
 };
 
 const fetchTokenHolders = async () => {
-  const org = await connect(
+  const org = await connect.connect(
     "0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C",
     "thegraph",
     { chainId: 4 }
   );
-  const apps = await org.apps();
 
-  const tokenManager = new TokenManager(
+  const tokenManager = new TokenManager.TokenManager(
     TOKENS_APP_ADDRESS,
     TOKENS_APP_SUBGRAPH_URL
   );
-  return await tokenManager.token();
+ 
+  return await tokenManager.token()
 };
+
