@@ -20,26 +20,29 @@ const fetchVotes = async () => {
     false
   );
   const votes = await voting.votes();
-  // const processedVotes = await Promise.all(
-  //   votes.map(async (vote) => processVote(vote, apps))
-  // );
-  console.log(org);
-  // processedVotes.reverse();
-  // console.log(processedVotes);
-  //return processedVotes;
+  const processedVotes = await Promise.all(
+    votes.map(async (vote) => processVote(vote, apps, org.provider))
+  );
+  //console.log(org)
+  processedVotes.reverse();
+  return processedVotes;
 };
 
-const processVote = async (vote, apps) => {
+const processVote = async (vote, apps, provider) => {
   if (vote.script === EMPTY_SCRIPT) {
     return vote;
   }
 
-  const [{ description }] = await connect.describeScript(vote.script, apps);
+  const [{ description }] = await connect.describeScript(
+    vote.script,
+    apps,
+    provider
+  );
   return { ...vote, metadata: description };
 };
 
 const fetchTokenHolders = async () => {
-  const org = await connect(
+  const org = await connect.connect(
     "0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C",
     "thegraph",
     { chainId: 4 }
@@ -52,3 +55,11 @@ const fetchTokenHolders = async () => {
   );
   return await tokenManager.token();
 };
+<<<<<<< HEAD
+=======
+
+module.exports = {
+  fetchVotes,
+  fetchTokenHolders,
+};
+>>>>>>> 313d5f711ebf07ee66b6d3f6197f40a2a6acc4be
