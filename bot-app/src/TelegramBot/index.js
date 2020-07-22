@@ -80,7 +80,11 @@ bot.on("/menu", async (msg) => {
 });
 
 bot.on("/proposals", async (msg) => {
-  const proposals = await connect.fetchVotes();
+  const chatid = msg.chat.id
+  const db = admin.firestore();
+  const doc = await db.collection("daos").doc(chatid.toString()).get();
+  const address = doc.get("address");
+  const proposals = await connect.fetchVotes(address);
   let completesProposalText = await Promise.all(
     proposals
       .filter((p) => p.executed)
@@ -141,7 +145,11 @@ bot.on("/proposals", async (msg) => {
 });
 
 bot.on("/token", async (msg) => {
-  const token = await connect.fetchTokenHolders();
+  const chatid = msg.chat.id
+  const db = admin.firestore();
+  const doc = await db.collection("daos").doc(chatid.toString()).get();
+  const address = doc.get("address");
+  const token = await connect.fetchTokenHolders(address);
   console.log(token);
   const tokenLink = await getTokenLink(token.name, token.appAddress);
   console.log(tokenLink);

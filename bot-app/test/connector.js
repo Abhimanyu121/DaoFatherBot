@@ -13,9 +13,13 @@ const fetchVotes = async () => {
     { chainId: 4 }
   );
   const apps = await org.apps();
-  // apps.forEach(console.log)
+  console.log(apps)
+  var result = apps.find(obj => {
+    return obj.name === 'voting'
+  })
+
   const voting = new Voting.Voting(
-    "0xf6d0a39082cf2b9589780bc8196701f9b13b0018",
+    result.address,
     "https://api.thegraph.com/subgraphs/name/aragon/aragon-voting-rinkeby",
     false
   );
@@ -25,7 +29,7 @@ const fetchVotes = async () => {
   );
   //console.log(org)
   processedVotes.reverse();
-  console.log(processedVotes);
+ // console.log(processedVotes);
   return processedVotes;
 };
 
@@ -45,10 +49,13 @@ const fetchTokenHolders = async () => {
     { chainId: 4 }
   );
   const apps = await org.apps();
-
+  var result = apps.find(obj => {
+    return obj.name === 'token-manager'
+  })
   const tokenManager = new TokenManager(
-    TOKENS_APP_ADDRESS,
+    result.address,
     TOKENS_APP_SUBGRAPH_URL
   );
   return await tokenManager.token();
 };
+fetchVotes();
