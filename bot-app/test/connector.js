@@ -13,7 +13,7 @@ const fetchVotes = async () => {
     { chainId: 4 }
   );
   const apps = await org.apps();
-  console.log(apps)
+  //console.log(apps)
   var result = apps.find(obj => {
     return obj.name === 'voting'
   })
@@ -23,12 +23,19 @@ const fetchVotes = async () => {
     "https://api.thegraph.com/subgraphs/name/aragon/aragon-voting-rinkeby",
     false
   );
+  voting.onVotes(async (e)=>{
+    const processedVotes = await Promise.all(
+      e.map(async (e) => processVote(e, apps, org.provider))
+    );
+    console.log(processedVotes);
+  }
+  )
   const votes = await voting.votes();
   const processedVotes = await Promise.all(
     votes.map(async (vote) => processVote(vote, apps, org.provider))
   );
   //console.log(org)
-  processedVotes.reverse();
+  //processedVotes.reverse();
  // console.log(processedVotes);
   return processedVotes;
 };

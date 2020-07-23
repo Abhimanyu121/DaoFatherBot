@@ -6,16 +6,20 @@ const TOKENS_APP_ADDRESS = "0x459af03894cb2ed9bfad56c9bfeb4e63ad182736";
 const TOKENS_APP_SUBGRAPH_URL =
   "https://api.thegraph.com/subgraphs/name/aragon/aragon-tokens-rinkeby";
 
-const fetchVotes = async () => {
+const fetchVotes = async (address) => {
   const org = await connect.connect(
-    "0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C",
+    address,
     "thegraph",
     { chainId: 4 }
   );
   const apps = await org.apps();
   // apps.forEach(console.log)
+  console.log(apps)
+  var result = apps.find(obj => {
+    return obj.name === 'voting'
+  })
   const voting = new Voting.Voting(
-    "0xf6d0a39082cf2b9589780bc8196701f9b13b0018",
+    result.address,
     "https://api.thegraph.com/subgraphs/name/aragon/aragon-voting-rinkeby",
     false
   );
@@ -41,15 +45,51 @@ const processVote = async (vote, apps, provider) => {
   return { ...vote, metadata: description };
 };
 
-const fetchTokenHolders = async () => {
-  const tokenManager = new TokenManager.TokenManager(
-    TOKENS_APP_ADDRESS,
+const fetchTokenHolders = async (address) => {
+  const org = await connect(
+    address,
+    "thegraph",
+    { chainId: 4 }
+  );
+  const apps = await org.apps();
+  var result = apps.find(obj => {
+    return obj.name === 'token-manager'
+  })
+  const tokenManager = new TokenManager(
+    result.address,
     TOKENS_APP_SUBGRAPH_URL
   );
   return await tokenManager.token();
 };
+const votesSocket = async(address, cbfunc, id) =>{
+  const org = await connect.connect(
+    address,
+    "thegraph",
+    { chainId: 4 }
+  );
+  const apps = await org.apps();
+  // apps.forEach(console.log)
+  var result = apps.find(obj => {
+    return obj.name === 'voting'
+  })
+  const voting = new Voting.Voting(
+    result.address,
+    "https://api.thegraph.com/subgraphs/name/aragon/aragon-voting-rinkeby",
+    false
+  );
+  voting.onVotes(async (e)=>{
+    const processedVotes = await Promise.all(
+      e.map(async (e) => processVote(e, apps, org.provider))
+    );
+    console.log("got vote")
+    
+    cbfunc(processedVotes[processedVotes.length-1], id)
+   }
+  )
+}
 
 module.exports = {
   fetchVotes,
   fetchTokenHolders,
+  votesSocket
 };

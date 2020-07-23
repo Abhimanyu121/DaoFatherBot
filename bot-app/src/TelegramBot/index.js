@@ -11,7 +11,7 @@ const bot = new TeleBot({
   token: "1044656290:AAE7msbGCW2SaVxz88EXBkuyx2GxnjKwqAw",
   usePlugins: ["askUser"],
 });
-
+var votesSocket= {}
 // On start command
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -44,6 +44,13 @@ bot.on("/register", async (msg) => {
   const db = admin.firestore();
   const doc = await db.collection("daos").doc(id.toString()).get();
   if (doc.exists) {
+    if(votesSocket[id]===undefined){
+      const address = doc.get("org");
+      votesSocket[id] = {}
+      votesSocket[id].status =true
+      console.log(address)
+      connect.votesSocket(address, sendProposal, id)
+    }
     return bot.sendMessage(
       id,
       "You have already registered your DAO in this group"
@@ -59,6 +66,10 @@ bot.on("/register", async (msg) => {
         org: address,
         name: name,
       });
+      votesSocket[id].status =true
+
+      connect.votesSocket(address, sendProposal, id)
+
       return bot.sendMessage(id, "Registered Successfully");
     } else {
       return bot.sendMessage(id, "Invalid address or name");
@@ -83,7 +94,7 @@ bot.on("/proposals", async (msg) => {
   const chatid = msg.chat.id
   const db = admin.firestore();
   const doc = await db.collection("daos").doc(chatid.toString()).get();
-  const address = doc.get("address");
+  const address = doc.get("org");
   const proposals = await connect.fetchVotes(address);
   let completesProposalText = await Promise.all(
     proposals
@@ -148,7 +159,7 @@ bot.on("/token", async (msg) => {
   const chatid = msg.chat.id
   const db = admin.firestore();
   const doc = await db.collection("daos").doc(chatid.toString()).get();
-  const address = doc.get("address");
+  const address = doc.get("org");
   const token = await connect.fetchTokenHolders(address);
   console.log(token);
   const tokenLink = await getTokenLink(token.name, token.appAddress);
@@ -177,7 +188,11 @@ bot.on("callbackQuery", (msg) => {
     true
   );
 });
-
+const sendProposal = async (vote,id) => {
+ // bot.sendMessage(id,"New Proposal")
+ console.log(id)
+ console.log(vote)
+}
 const getProposalLink = async (chatid, number, address) => {
   const db = admin.firestore();
   const doc = await db.collection("daos").doc(chatid.toString()).get();
