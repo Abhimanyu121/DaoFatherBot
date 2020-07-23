@@ -188,10 +188,22 @@ bot.on("callbackQuery", (msg) => {
     true
   );
 });
-const sendProposal = async (vote,id) => {
- // bot.sendMessage(id,"New Proposal")
- console.log(id)
- console.log(vote)
+const sendProposal = async (p,id) => {
+  var link = await getProposalLink(id, 
+    parseInt(p.id.split("-")[1].split(":")[1]),
+    p.id.split("-")[0].split(":")[1]
+    )
+  var prop = "*Proposal " +
+  ":* " +
+  p.metadata +
+  " Started at " +
+  moment.unix(p.startDate).format("YYYY-MM-DD HH:mm") +
+  "\n[Click here to go to the proposal]("+
+  link+
+  ")"
+  bot.sendMessage(id,prop)
+  console.log(id)
+  console.log(vote)
 }
 const getProposalLink = async (chatid, number, address) => {
   const db = admin.firestore();

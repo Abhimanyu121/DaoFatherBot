@@ -46,7 +46,7 @@ const processVote = async (vote, apps, provider) => {
 };
 
 const fetchTokenHolders = async (address) => {
-  const org = await connect(
+  const org = await connect.connect(
     address,
     "thegraph",
     { chainId: 4 }
@@ -55,7 +55,7 @@ const fetchTokenHolders = async (address) => {
   var result = apps.find(obj => {
     return obj.name === 'token-manager'
   })
-  const tokenManager = new TokenManager(
+  const tokenManager = new TokenManager.TokenManager(
     result.address,
     TOKENS_APP_SUBGRAPH_URL
   );
@@ -87,6 +87,25 @@ const votesSocket = async(address, cbfunc, id) =>{
    }
   )
 }
+// const tokenSocket = async(address, cbfunc, id) =>{
+//   const org = await connect.connect(
+//     address,
+//     "thegraph",
+//     { chainId: 4 }
+//   );
+//   const apps = await org.apps();
+//   // apps.forEach(console.log)
+//   var result = apps.find(obj => {
+//     return obj.name === 'token-manager'
+//   })
+//   const tokenManager = new TokenManager.TokenManager(
+//     result.address,
+//     TOKENS_APP_SUBGRAPH_URL
+//   );
+//   var obj = tokenManager.token()
+//   var addr = (await obj).id.split("-")[1]
+//   tokenManager.o
+// }
 
 module.exports = {
   fetchVotes,

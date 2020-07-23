@@ -50,7 +50,7 @@ const processVote = async (vote, apps, provider) => {
 };
 
 const fetchTokenHolders = async () => {
-  const org = await connect(
+  const org = await connect.connect(
     "0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C",
     "thegraph",
     { chainId: 4 }
@@ -59,10 +59,10 @@ const fetchTokenHolders = async () => {
   var result = apps.find(obj => {
     return obj.name === 'token-manager'
   })
-  const tokenManager = new TokenManager(
+  const tokenManager = new TokenManager.TokenManager(
     result.address,
     TOKENS_APP_SUBGRAPH_URL
   );
-  return await tokenManager.token();
+console.log(await tokenManager.token())
 };
-fetchVotes();
+fetchTokenHolders()
