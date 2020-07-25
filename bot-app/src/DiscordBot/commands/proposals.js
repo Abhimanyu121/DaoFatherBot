@@ -4,7 +4,7 @@ const utils = require('../../Common/utils');
 const moment = require('moment');
 module.exports = {
 	name: 'proposals',
-	description: 'Get all the proposals from the aragon for the DAO!',
+	description: 'Show all the proposals from the aragon for the DAO!',
 	args: false,
 	usage: '',
 	cooldown: 10,

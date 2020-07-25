@@ -4,7 +4,7 @@ const firebaseUtil = require('../../Common/firebase');
 
 module.exports = {
 	name: 'register',
-	description: 'register DAO with Aragon!',
+	description: 'Register DAO with Aragon!',
 	args: true,
 	usage: '<DAO Name> <DAO Aragon Address>',
 	cooldown: 5,
