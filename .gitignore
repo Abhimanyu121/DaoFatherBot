@@ -1,2 +1,3 @@
 /bot-app/node_modules
-/bot-app/src/TelegramBot/config.json
+/bot-app/dist
+/bot-app/src/firebase-config.json
