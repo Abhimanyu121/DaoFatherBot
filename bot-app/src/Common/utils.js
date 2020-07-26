@@ -5,7 +5,7 @@ const ethAddressVerify = (address) => {
 const getProposalLink = async (chatId, number, address) => {
 	const doc = await firebaseUtil.getDaoById(chatId);
 	const name = doc.get('name');
-	console.log(name);
+	// console.log(name);
 	return (
 		'https://rinkeby.aragon.org/#/' + name + '/' + address + '/vote/' + number
 	);

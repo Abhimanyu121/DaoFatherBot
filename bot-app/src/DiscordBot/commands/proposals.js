@@ -13,11 +13,14 @@ module.exports = {
 		const id = message.guild.id;
 		const doc = await firebaseUtil.getDaoById(id);
 		const address = doc.get('org');
-		console.log(address);
+		// console.log(address);
 		const proposals = await connectUtil.fetchVotes(address);
+		console.log(proposals);
 		let completesProposalText = await Promise.all(
 			proposals
 				.filter((p) => p.executed)
+				.sort((a, b) => moment.utc(Number.parseInt(b.startDate)).diff(moment.utc(Number.parseInt(a.startDate))))
+				.splice(0, 5)
 				.map(async (p, i) => {
 					return utils
 						.getProposalLink(
@@ -27,23 +30,21 @@ module.exports = {
 						)
 						.then((genLink) => {
 							return (
-								'\t\t**Proposal ' +
-								(i + 1) +
-								':** ' +
-								p.metadata +
-								' Started at `' +
-								moment.unix(p.startDate).format('YYYY-MM-DD HH:mm') +
-								'`\n\t\t(' +
-								genLink +
-								')'
+								'\t\t**Proposal ' + (i + 1) + ':** ' + p.metadata +
+								'\n\t\t**Started at:** `' + moment.unix(p.startDate).format('YYYY-MM-DD HH:mm') + '`' +
+								'\n\t\t**Votes till now:** ' + `${p.yea} Yes & ${p.nay} No` +
+								'\n\t\t**Link to view:** ' + genLink
 							);
 						});
 				}),
 		);
-		completesProposalText = completesProposalText.join('\n');
-		let ongoingProposalText = await Promise.all(
+		completesProposalText = completesProposalText.join('\n\n');
+
+		let rejectedProposalText = await Promise.all(
 			proposals
 				.filter((p) => !p.executed)
+				.sort((a, b) => moment.utc(Number.parseInt(b.startDate)).diff(moment.utc(Number.parseInt(a.startDate))))
+				.splice(0, 5)
 				.map(async (p, i) => {
 					return utils
 						.getProposalLink(
@@ -53,22 +54,17 @@ module.exports = {
 						)
 						.then((genLink) => {
 							return (
-								'\t\t**Proposal ' +
-								(i + 1) +
-								':** ' +
-								p.metadata +
-								' Started at `' +
-								moment.unix(p.startDate).format('YYYY-MM-DD HH:mm') +
-								'`\n\t\t(' +
-								genLink +
-								')'
+								'\t\t**Proposal ' + (i + 1) + ':** ' + p.metadata +
+								'\n\t\t**Started at:** `' + moment.unix(p.startDate).format('YYYY-MM-DD HH:mm') + '`' +
+								'\n\t\t**Votes till now:** ' + `${p.yea} Yes & ${p.nay} No` +
+								'\n\t\t**Link to view:** ' + genLink
 							);
 						});
 				}),
 		);
-		ongoingProposalText = ongoingProposalText.join('\n');
+		rejectedProposalText = rejectedProposalText.join('\n\n');
 
-		const reply = `*Ongoing Proposals:*\n${ongoingProposalText}\n\n*Completed Proposals:*\n${completesProposalText}`;
+		const reply = `*Completed Proposals:*\n\n${completesProposalText}\n\n*Rejected Proposals:*\n\n${rejectedProposalText}`;
 		message.channel.send(reply, { split: true });
 	},
 };

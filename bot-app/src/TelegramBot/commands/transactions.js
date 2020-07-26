@@ -1,6 +1,7 @@
 const firebaseUtil = require('../../Common/firebase');
 const connectUtil = require('../../Common/connector');
 const utils = require('../../Common/utils');
+const moment = require('moment');
 
 module.exports = {
 	name: 'transactions',
@@ -18,24 +19,20 @@ module.exports = {
 			const link = await utils.txLink(name, orgAddr);
 			const txList = await connectUtil.fetchTx(address);
 			console.log(txList);
-			const txText = await Promise.all(
-				txList
-					.map(async (tx, i)=>{
-						return (
-							'\n*Transaction ' +
-                        (i + 1) +
-                       (tx.reference == '' ? '' : ':\n* ') +
-                        tx.reference +
-                        '\n' +
-                        '*Amount:*\n' +
-                        tx.amount +
-                        'ETH'
-						);
-					}),
-			);
+			let txText = txList
+				.sort((a, b) => moment.utc(Number.parseInt(b.date)).diff(moment.utc(Number.parseInt(a.date))))
+				.splice(0, 10)
+				.map((tx, i) => {
+					return (
+						'\t\t\t\t\t*Transaction ' + (i + 1) + (tx.reference === '' ? '* ' : ':* ') + tx.reference +
+						'\n\t\t\t\t\t*Amount:* ' + tx.amount + ' ETH' +
+						'\n\t\t\t\t\t*Date:* `' + moment.unix(tx.date).format('YYYY-MM-DD HH:mm') + '`'
+					);
+				});
+			txText = txText.join('\n\n');
 			return bot.sendMessage(
 				chatId,
-				`*Transaction:*\n${txText}\n*All Transactions:* ${link}`,
+				`*Transaction:*\n\n${txText}\n\n*View All Transactions:* [Click here to view all the transactions](${link})\n\nUse /menu to see menu again.`,
 				{
 					replyMarkup: 'hide',
 					parseMode: 'Markdown',

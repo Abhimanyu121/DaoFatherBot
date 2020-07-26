@@ -16,7 +16,7 @@ module.exports = {
 			console.log(balance);
 			return bot.sendMessage(
 				chatId,
-				`*DAO Balance:*\nDAO currently holds ${balance} ETH`,
+				`*DAO Balance:*\nDAO currently holds ${balance} ETH\n\nUse /menu to see menu again.`,
 				{
 					replyMarkup: 'hide',
 					parseMode: 'Markdown',

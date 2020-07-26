@@ -2,32 +2,80 @@ const firebaseUtil = require('../../Common/firebase');
 const connectUtil = require('../../Common/connector');
 const utils = require('../../Common/utils');
 const moment = require('moment');
-const votesSocket = {};
-let instance;
+const eventsSocket = {};
+let msgInstance;
+
 const sendProposal = async (proposal, id) =>{
 	const link = await utils.getProposalLink(
 		id,
 		parseInt(proposal.id.split('-')[1].split(':')[1]),
 		proposal.id.split('-')[0].split(':')[1],
 	);
-	const prop =
-	`*Proposal:* ${proposal.metadata} Started at ${moment.unix(proposal.startDate).format('YYYY-MM-DD HH:mm')}\n[Click here to go to the proposal](${link})`;
-	instance.channel.send(prop, { split: true });
+	const prop = {
+		color: 0x0099ff,
+		title: 'New Proposal Generated',
+		url: link,
+		thumbnail: {
+			url: 'https://cdn.freebiesupply.com/logos/large/2x/aragon-icon-logo-png-transparent.png',
+		},
+		fields: [
+			{
+				name: 'Proposal',
+				value: `${proposal.metadata}`,
+			},
+			{
+				name: 'Started at',
+				value: `${moment.unix(proposal.startDate).format('YYYY-MM-DD HH:mm')}`,
+			},
+			{
+				name: 'Link to view the proposal',
+				value: `${link}`,
+			},
+		],
+		timestamp: new Date(),
+	};
+	msgInstance.channel.send({ embed: prop });
 };
-const sendTx = async (tx, id) => {
-	if(tx.isIncoming) {
-		const prop =
-		`New Transaction Recived:\nAmount:- ${tx.amount} ETH`;
-		instance.channel.send(prop, { split: true });	}
-	else{
-		const prop =
-		`New Transaction Sent:\nAmount:- ${tx.amount} ETH`;
-		instance.channel.send(prop, { split: true });
-	}
 
+const sendTx = async (tx, id) => {
+	let prop = {};
+	if(tx.isIncoming) {
+		prop = {
+			color: 0x0099ff,
+			title: 'New Transaction Received',
+			thumbnail: {
+				url: 'https://cdn.freebiesupply.com/logos/large/2x/aragon-icon-logo-png-transparent.png',
+			},
+			fields: [
+				{
+					name: 'Amount',
+					value: `${tx.amount} ETH`,
+				},
+			],
+			timestamp: new Date(),
+		};
+	}
+	else{
+		prop = {
+			color: 0x0099ff,
+			title: 'New Transaction Sent',
+			thumbnail: {
+				url: 'https://cdn.freebiesupply.com/logos/large/2x/aragon-icon-logo-png-transparent.png',
+			},
+			fields: [
+				{
+					name: 'Amount',
+					value: `${tx.amount} ETH`,
+				},
+			],
+			timestamp: new Date(),
+		};
+	}
+	msgInstance.channel.send({ embed: prop });
 	console.log(id);
 	// console.log(vote);
 };
+
 module.exports = {
 	name: 'register',
 	description: 'Register DAO with Aragon!',
@@ -35,17 +83,18 @@ module.exports = {
 	usage: '<DAO Name> <DAO Aragon Address>',
 	cooldown: 5,
 	async execute(message, args) {
-		instance = message;
+		msgInstance = message;
 		const id = message.guild.id;
 		console.log(id, args);
 		const doc = await firebaseUtil.getDaoById(id);
 		let reply = '';
 		if (doc.exists) {
-			if (votesSocket[id] === undefined) {
+			if (eventsSocket[id] === undefined) {
 				const address = doc.get('org');
-				votesSocket[id] = {};
-				votesSocket[id].status = true;
-				console.log(address);
+
+				eventsSocket[id] = {};
+				eventsSocket[id].status = true;
+
 				connectUtil.votesSocket(address, sendProposal, id);
 				connectUtil.txSocket(address, sendTx, id);
 
@@ -61,7 +110,8 @@ module.exports = {
 					org: address,
 					name: name,
 				});
-				votesSocket[id].status = true;
+
+				eventsSocket[id].status = true;
 
 				connectUtil.votesSocket(address, sendProposal, id);
 				connectUtil.txSocket(address, sendTx, id);

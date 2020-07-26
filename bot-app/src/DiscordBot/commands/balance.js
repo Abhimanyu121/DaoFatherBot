@@ -15,13 +15,13 @@ module.exports = {
 		console.log(bal);
 		const exampleEmbed = {
 			color: 0x0099ff,
-			title: 'Balance',
+			title: 'DAO Balance',
 			thumbnail: {
 				url: 'https://cdn.freebiesupply.com/logos/large/2x/aragon-icon-logo-png-transparent.png',
 			},
 			fields: [
 				{
-					name: 'Amount',
+					name: 'DAO currently holds',
 					value: `${bal} ETH`,
 				},
 			],

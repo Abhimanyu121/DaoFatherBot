@@ -9,7 +9,7 @@ module.exports = {
 			// console.log(msg);
 			const id = msg.chat.id;
 
-			const replyMarkup = bot.keyboard([['/proposals', '/token', '/balance'], ['/balance', '/transactions'], ['/hide']], {
+			const replyMarkup = bot.keyboard([['/proposals', '/token'], ['/balance', '/transactions'], ['/hide']], {
 				resize: true,
 			});
 

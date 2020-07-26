@@ -16,7 +16,7 @@ const fetchVotes = async (address) => {
 	);
 	const apps = await org.apps();
 	// apps.forEach(console.log)
-	console.log(apps);
+	// console.log(apps);
 	const result = apps.find(obj => {
 		return obj.name === 'voting';
 	});
