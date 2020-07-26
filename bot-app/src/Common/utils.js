@@ -25,11 +25,17 @@ const txLink = async (name, address) => {
 	// console.log(name);
 	return 'https://rinkeby.aragon.org/#/' + name + '/' + address;
 };
-
-
+const daoLink = (name) => {
+	// const db = admin.firestore();
+	// const doc = await db.collection("daos").doc(chatid.toString()).get();
+	// const name = doc.get("name");
+	// console.log(name);
+	return 'https://rinkeby.aragon.org/#/' + name + '/';
+};
 module.exports = {
 	ethAddressVerify,
 	getProposalLink,
 	getTokenLink,
 	txLink,
+	daoLink,
 };

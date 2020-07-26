@@ -182,6 +182,18 @@ const orgAddressFinance = async (address)=> {
 	});
 	return result.address;
 };
+const orgAddressVoting = async (address)=> {
+	const org = await connect.connect(
+		address,
+		'thegraph',
+		{ chainId: 4 },
+	);
+	const apps = await org.apps();
+	const result = apps.find(obj => {
+		return obj.name === 'voting';
+	});
+	return result.address;
+};
 
 module.exports = {
 	fetchVotes,
@@ -191,4 +203,5 @@ module.exports = {
 	fetchTx,
 	txSocket,
 	orgAddressFinance,
+	orgAddressVoting,
 };

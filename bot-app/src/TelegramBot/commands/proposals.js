@@ -14,6 +14,9 @@ module.exports = {
 			const chatId = msg.chat.id;
 			const doc = await firebaseUtil.getDaoById(chatId);
 			const address = doc.get('org');
+			const name = doc.get('name');
+			const orgAddr = await connectUtil.orgAddressVoting(address);
+			const link = await utils.txLink(name, orgAddr);
 			const proposals = await connectUtil.fetchVotes(address);
 			let completesProposalText = await Promise.all(
 				proposals
@@ -60,7 +63,7 @@ module.exports = {
 
 			return bot.sendMessage(
 				chatId,
-				`*Completed Proposals:*\n\n${completesProposalText}\n\n*Rejected Proposals:*\n\n${ongoingProposalText}\n\nUse /menu to see menu again.`,
+				`*Completed Proposals:*\n\n${completesProposalText}\n\n*Rejected Proposals:*\n\n${ongoingProposalText}\n\n*Link to all the proposals:*${link}\nUse /menu to see menu again.`,
 				{
 					replyMarkup: 'hide',
 					parseMode: 'Markdown',

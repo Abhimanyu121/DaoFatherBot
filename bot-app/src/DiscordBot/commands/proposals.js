@@ -13,7 +13,9 @@ module.exports = {
 		const id = message.guild.id;
 		const doc = await firebaseUtil.getDaoById(id);
 		const address = doc.get('org');
-		// console.log(address);
+		const name = doc.get('name');
+		const orgAddr = await connectUtil.orgAddressVoting(address);
+		const link = await utils.txLink(name, orgAddr);
 		const proposals = await connectUtil.fetchVotes(address);
 		console.log(proposals);
 		let completesProposalText = await Promise.all(
@@ -64,7 +66,7 @@ module.exports = {
 		);
 		rejectedProposalText = rejectedProposalText.join('\n\n');
 
-		const reply = `*Completed Proposals:*\n\n${completesProposalText}\n\n*Rejected Proposals:*\n\n${rejectedProposalText}`;
+		const reply = `*Completed Proposals:*\n\n${completesProposalText}\n\n*Rejected Proposals:*\n\n${rejectedProposalText}\n\n*Link to all the proposals:*\n\n${link}`;
 		message.channel.send(reply, { split: true });
 	},
 };
