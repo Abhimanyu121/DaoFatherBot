@@ -15,8 +15,6 @@ const fetchVotes = async (address) => {
 		{ chainId: 4 },
 	);
 	const apps = await org.apps();
-	// apps.forEach(console.log)
-	// console.log(apps);
 	const result = apps.find(obj => {
 		return obj.name === 'voting';
 	});
@@ -29,7 +27,6 @@ const fetchVotes = async (address) => {
 	const processedVotes = await Promise.all(
 		votes.map(async (vote) => processVote(vote, apps, org.provider)),
 	);
-	// console.log(org)
 	processedVotes.reverse();
 	return processedVotes;
 };
@@ -63,6 +60,7 @@ const fetchTokenHolders = async (address) => {
 	);
 	return await tokenManager.token();
 };
+
 const votesSocket = async (address, cbfunc, id) =>{
 	let status = false;
 	const org = await connect.connect(
@@ -71,7 +69,6 @@ const votesSocket = async (address, cbfunc, id) =>{
 		{ chainId: 4 },
 	);
 	const apps = await org.apps();
-	// apps.forEach(console.log)
 	const result = apps.find(obj => {
 		return obj.name === 'voting';
 	});
@@ -94,6 +91,7 @@ const votesSocket = async (address, cbfunc, id) =>{
 	},
 	);
 };
+
 const fetchBalance = async (address) => {
 	const org = await connect.connect(
 		address,
@@ -114,6 +112,7 @@ const fetchBalance = async (address) => {
 	console.log(eth);
 	return eth;
 };
+
 const fetchTx = async (address) => {
 	const org = await connect.connect(
 		address,
@@ -137,6 +136,7 @@ const fetchTx = async (address) => {
 	console.log(txlist);
 	return txlist;
 };
+
 const txSocket = async (address, callbck, id) => {
 	let status = false;
 	const org = await connect.connect(
@@ -161,8 +161,8 @@ const txSocket = async (address, callbck, id) => {
 	});
 
 };
-const processTx = (txlist, callbck, id) => {
 
+const processTx = (txlist, callbck, id) => {
 	const web3 = new Web3();
 	txlist[txlist.length - 1].amount = web3.utils.fromWei(txlist[txlist.length - 1].amount, 'ether');
 	console.log(txlist[txlist.length - 1]);
@@ -170,6 +170,7 @@ const processTx = (txlist, callbck, id) => {
 	return txlist[txlist.length - 1];
 
 };
+
 const orgAddressFinance = async (address)=> {
 	const org = await connect.connect(
 		address,
@@ -182,6 +183,7 @@ const orgAddressFinance = async (address)=> {
 	});
 	return result.address;
 };
+
 const orgAddressVoting = async (address)=> {
 	const org = await connect.connect(
 		address,

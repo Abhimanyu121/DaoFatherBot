@@ -65,9 +65,6 @@ client.on('message', (message) => {
 		console.error(error);
 		message.reply('there was an error trying to execute that command!');
 	}
-	// if(command === 'ping') {
-	// 	client.commands.get('ping').execute(msg, args);
-	// }
 });
 
 module.exports = () => {

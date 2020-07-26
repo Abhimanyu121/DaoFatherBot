@@ -4,7 +4,7 @@ const utils = require('../../Common/utils');
 module.exports = {
 	name: 'dao',
 	description: 'Shows balance of DAO!',
-	prefixRequired: false,
+	prefixRequired: true,
 	args: false,
 	usage: '',
 	execute: (bot) => {
