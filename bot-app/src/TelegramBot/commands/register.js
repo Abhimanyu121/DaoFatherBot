@@ -18,6 +18,21 @@ const sendProposal = async (proposal, id) => {
 	// console.log(vote);
 };
 
+const sendTx = async (tx, id) => {
+	if(tx.isIncoming) {
+		const prop =
+		`New Transaction Recived:\nAmount:- ${tx.amount} ETH`;
+		currentBot.sendMessage(id, prop);
+	}
+	else{
+		const prop =
+		`New Transaction Sent:\nAmount:- ${tx.amount} ETH`;
+		currentBot.sendMessage(id, prop);
+	}
+
+	console.log(id);
+	// console.log(vote);
+};
 module.exports = {
 	name: 'register',
 	description: 'Register DAO with Aragon!',
@@ -38,6 +53,7 @@ module.exports = {
 					votesSocket[id].status = true;
 					console.log(address);
 					connectUtil.votesSocket(address, sendProposal, id);
+					connectUtil.txSocket(address, sendTx, id);
 				}
 				return bot.sendMessage(
 					id,
@@ -58,6 +74,7 @@ module.exports = {
 					votesSocket[id].status = true;
 
 					connectUtil.votesSocket(address, sendProposal, id);
+					connectUtil.txSocket(address, sendTx, id);
 
 					return bot.sendMessage(id, 'Registered Successfully');
 				}

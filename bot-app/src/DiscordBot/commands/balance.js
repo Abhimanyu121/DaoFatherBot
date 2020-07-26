@@ -22,7 +22,7 @@ module.exports = {
 			fields: [
 				{
 					name: 'Amount',
-					value: `${bal}`,
+					value: `${bal} ETH`,
 				},
 			],
 			timestamp: new Date(),

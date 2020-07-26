@@ -9,11 +9,11 @@ module.exports = {
 			// console.log(msg);
 			const id = msg.chat.id;
 
-			const replyMarkup = bot.keyboard([['/proposals', '/token', '/balance'], ['/hide']], {
+			const replyMarkup = bot.keyboard([['/proposals', '/token', '/balance'], ['/balance', '/transactions'], ['/hide']], {
 				resize: true,
 			});
 
-			return bot.sendMessage(id, 'Proposals:- /proposals\nToken Info:- /tokens\nDAO Balance:- /balance', {
+			return bot.sendMessage(id, 'Proposals:- /proposals\nToken Info:- /tokens\nDAO Balance:- /balance\nTransactions List:- /transactions', {
 				replyMarkup,
 			});
 		};

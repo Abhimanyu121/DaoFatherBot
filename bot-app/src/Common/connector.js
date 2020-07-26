@@ -64,6 +64,7 @@ const fetchTokenHolders = async (address) => {
 	return await tokenManager.token();
 };
 const votesSocket = async (address, cbfunc, id) =>{
+	let status = false;
 	const org = await connect.connect(
 		address,
 		'thegraph',
@@ -80,6 +81,10 @@ const votesSocket = async (address, cbfunc, id) =>{
 		false,
 	);
 	voting.onVotes(async (event)=>{
+		if(!status) {
+			status = true;
+			return;
+		}
 		const processedVotes = await Promise.all(
 			event.map(async (evt) => processVote(evt, apps, org.provider)),
 		);
@@ -163,6 +168,7 @@ const processTx = (txlist, callbck, id) => {
 	console.log(txlist[txlist.length - 1]);
 	callbck(txlist[txlist.length - 1], id);
 	return txlist[txlist.length - 1];
+
 };
 const orgAddressFinance = async (address)=> {
 	const org = await connect.connect(
