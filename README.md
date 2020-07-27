@@ -13,23 +13,26 @@ Some of the features are:-
 8. Project is on simple docker container so it can run on any system.
 
 ## Instructions to run the project
-1. Run with docker
+* Run with docker
   - Add a firebase config file in `bot-app/src` with name `firebase-config.json` and make sure you have firestore enabled.
+  - Add your telegram access token in `bot-app/src/TelegramBot/config.json` and discord access token in `bot-app/src/DiscordBot`.
   - For first run build the project with `docker-compose up --build`
   - For consequent runs you can simply run it with `docker-compose up`
-2.  Run with yarn, follow the given commands
+*  Run with yarn, follow the given commands
+  - Add your telegram access token in `bot-app/src/TelegramBot/config.json` and discord access token in `bot-app/src/DiscordBot`.
   - Add a firebase config file in `bot-app/src` with name `firebase-config.json` and make sure you have firestore enabled.
   - `cd bot-app`
   - `npm install`
   - `npm install yarn -g`
   - `npm run dev`
 ## Adding bot to your group
-1. Telegram 
-  a. Add this bot to your group `http://t.me/aragondao69_bot`
-  b. Run `/register DAOName 0xDaoAddress`
-2. Discord 
-  a. Add this bot to your server `https://discord.com/api/oauth2/authorize?client_id=737272433802870875&permissions=8&scope=bot`
-  b Run `!register DAOName 0xDAOAddress`
+* Below given bot are already hosted on our server.
+* Telegram 
+  - Add this bot to your group `http://t.me/aragondao69_bot`
+  - Run `/register DAOName 0xDaoAddress`
+* Discord 
+  - Add this bot to your server `https://discord.com/api/oauth2/authorize?client_id=737272433802870875&permissions=8&scope=bot`
+  -  Run `!register DAOName 0xDAOAddress`
 ## Project Team
 1. Mitrasish Mukherjee
     * Github - https://github.com/rekpero
