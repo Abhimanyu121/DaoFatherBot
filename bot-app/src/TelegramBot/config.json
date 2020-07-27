@@ -1,6 +1,6 @@
 {
     "prefix": "/",
-    "token": "1044656290:AAE7msbGCW2SaVxz88EXBkuyx2GxnjKwqAw",
+    "token": "YOUR TOKEN GOES HERE",
     "plugin": ["askUser"],
     "bot_age": 1,
     "bot_info": {
