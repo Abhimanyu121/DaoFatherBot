@@ -28,10 +28,10 @@ Some of the features are:-
 ## Adding bot to your group
 * Below given bot are already hosted on our server.
 * Telegram 
-  - Add this bot to your group `http://t.me/aragondao69_bot`
+  - Add this bot to your group http://t.me/aragondao69_bot
   - Run `/register DAOName 0xDaoAddress`
 * Discord 
-  - Add this bot to your server `https://discord.com/api/oauth2/authorize?client_id=737272433802870875&permissions=8&scope=bot`
+  - Add this bot to your server https://discord.com/api/oauth2/authorize?client_id=737272433802870875&permissions=8&scope=bot
   -  Run `!register DAOName 0xDAOAddress`
 ## Project Team
 1. Mitrasish Mukherjee
