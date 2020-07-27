@@ -18,7 +18,7 @@ Some of the features are:-
   - Add your telegram access token in `bot-app/src/TelegramBot/config.json` and discord access token in `bot-app/src/DiscordBot`.
   - For first run build the project with `docker-compose up --build`
   - For consequent runs you can simply run it with `docker-compose up`
-*  Run with yarn, follow the given commands
+* Run with yarn, follow the given commands
   - Add your telegram access token in `bot-app/src/TelegramBot/config.json` and discord access token in `bot-app/src/DiscordBot`.
   - Add a firebase config file in `bot-app/src` with name `firebase-config.json` and make sure you have firestore enabled.
   - `cd bot-app`
