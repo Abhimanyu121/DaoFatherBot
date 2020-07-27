@@ -128,7 +128,7 @@ const fetchTx = async (address) => {
 	const finance = new Finance.Finance(
 		result.address,
 		FINANCE_APP_SUBGRAPH_URL,
-		);
+	);
 	console.log(await finance.transactions());
 	const txlist = await finance.transactions();
 	const web3 = new Web3();
