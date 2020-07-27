@@ -13,7 +13,7 @@ module.exports = {
 				resize: true,
 			});
 
-			return bot.sendMessage(id, 'Proposals:- /proposals\nToken Info:- /tokens\nDAO Balance:- /balance\nTransactions List:- /transactions\nLink to DAO:- /dao\nCreate new proposal:-  /newproposal\nCreate new transaction :- /newtransaction', {
+			return bot.sendMessage(id, 'Proposals:- /proposals\nToken Info:- /token\nDAO Balance:- /balance\nTransactions List:- /transactions\nLink to DAO:- /dao\nCreate new proposal:-  /newproposal\nCreate new transaction :- /newtransaction', {
 				replyMarkup,
 			});
 		};
