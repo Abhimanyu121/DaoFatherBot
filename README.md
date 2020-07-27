@@ -1,10 +1,12 @@
 # AragonDAO Bot
 Telegram and Discord bots to integrate groups with Aragon.
 ## Project Description
-Our project is aimed to bring the communites and social groups closer to Aragon DAO. Our project has two bots, discord bot and telegram bot, running on same modular codebase.
+Our project is aimed to bring the communites and social groups closer to Aragon DAO. Our project has two bots, discord bot and telegram bot, running on same modular codebase. Users can get links to allocate funds, that is to create proposal and withdrawls, see all the proposals etc.
 Some of the features are:- 
 1. Listing proposals.
 2. Listing transactions.
+4. Getting link to create proposals.
+3. Getting link to create withdrawl requests.
 3. Bot sends a text to group when a new transaction is made to or from the bot.
 4. Bot sends a text to group when a new proposal is created in the DAO.
 5. Above two features makes our bot work as a notification service as well.
@@ -33,6 +35,29 @@ Some of the features are:-
 * Discord 
   - Add this bot to your server https://discord.com/api/oauth2/authorize?client_id=737272433802870875&permissions=8&scope=bot
   -  Run `!register DAOName 0xDAOAddress`
+## List of Commands
+* Telegram
+  - `/start` This can be used to get some initial instructions.
+  - `/register` This can be used to register your DAO to bot in a group.
+    - Example - `/register superDAO 0x2Ee331840018465bD7Fe74aA4E442b9EA407fBBE`
+  - `/proposals` List all the proposals of the DAO.
+  - `/transactions` List all the transactions.
+  - `/token` Gives information about DAO member token.
+  - `/balance` Gives ETH present in DAO.
+  - `/dao` Gives link to the DAO.
+  - `/newpoposal` Gives a link to create new proposal.
+  - `/newtransaction` Gives a link to create deposit or withdraw from DAO.
+* Discord
+  - `!help` This can be used to get help with some command and get list of commands.
+  - `!register` this can be used to register your DAO to bot in a group.
+    - Example - `!register superDAO 0x2Ee331840018465bD7Fe74aA4E442b9EA407fBBE`
+  - `!proposals` List all the proposals of the DAO.
+  - `!transactions` List all the transactions.
+  - `!token` Gives information about DAO member token.
+  - `!balance` Gives ETH present in DAO.
+  - `!dao` Gives link to the DAO.
+  - `!newpoposal` Gives a link to create new proposal.
+  - `!newtransaction` Gives a link to create deposit or withdraw from DAO.
 ## Project Team
 1. Mitrasish Mukherjee
     * Github - https://github.com/rekpero
