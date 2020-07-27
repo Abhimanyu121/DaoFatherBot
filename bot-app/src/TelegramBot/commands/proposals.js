@@ -63,7 +63,7 @@ module.exports = {
 
 			return bot.sendMessage(
 				chatId,
-				`*Completed Proposals:*\n\n${completesProposalText}\n\n*Rejected Proposals:*\n\n${ongoingProposalText}\n\n*Link to all the proposals:*${link}\nUse /menu to see menu again.`,
+				`*Executed Proposals:*\n\n${completesProposalText}\n\n*Non-executed Proposals:*\n\n${ongoingProposalText}\n\n*Link to all the proposals:*${link}\nUse /menu to see menu again.`,
 				{
 					replyMarkup: 'hide',
 					parseMode: 'Markdown',

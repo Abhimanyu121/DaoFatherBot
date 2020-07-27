@@ -66,7 +66,7 @@ module.exports = {
 		);
 		rejectedProposalText = rejectedProposalText.join('\n\n');
 
-		const reply = `*Completed Proposals:*\n\n${completesProposalText}\n\n*Rejected Proposals:*\n\n${rejectedProposalText}\n\n*Link to all the proposals:*\n\n${link}`;
+		const reply = `*Executed Proposals:*\n\n${completesProposalText}\n\n*Non-executed Proposals:*\n\n${rejectedProposalText}\n\n*Link to all the proposals:*\n\n${link}`;
 		message.channel.send(reply, { split: true });
 	},
 };
