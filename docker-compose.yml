@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  bots:
+    build: ./bot-app
+    volumes:
+      - ./bot-app:/usr/src/app
+      - /usr/src/app/node_modules
+    command: yarn start
