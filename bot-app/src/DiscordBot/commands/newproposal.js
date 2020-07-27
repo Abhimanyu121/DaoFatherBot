@@ -16,7 +16,7 @@ module.exports = {
 		const name = doc.get('name');
 		const org_addr = doc.get('org');
 		const address = await connectUtil.orgAddressVoting(org_addr);
-		const link = utils.txLink(name, address);
+		const link = await utils.txLink(name, address);
 		const text = `*You can create new proposal here:*\n ${link}`;
 
 		message.channel.send(text, { split: true });
