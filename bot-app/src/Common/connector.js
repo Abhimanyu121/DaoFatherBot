@@ -7,6 +7,8 @@ const EMPTY_SCRIPT = '0x00000001';
 // const TOKENS_APP_ADDRESS = '0x459af03894cb2ed9bfad56c9bfeb4e63ad182736';
 const TOKENS_APP_SUBGRAPH_URL =
   'https://api.thegraph.com/subgraphs/name/aragon/aragon-tokens-rinkeby';
+const FINANCE_APP_SUBGRAPH_URL =
+	'https://api.thegraph.com/subgraphs/name/0xgabi/aragon-finance-rinkeby';
 
 const fetchVotes = async (address) => {
 	const org = await connect.connect(
@@ -106,7 +108,7 @@ const fetchBalance = async (address) => {
 	});
 	const finance = new Finance.Finance(
 		result.address,
-		'https://api.thegraph.com/subgraphs/name/0xgabi/superdao-finance-rinkeby',
+		FINANCE_APP_SUBGRAPH_URL,
 	);
 	const wei = (await finance.balance('0x0000000000000000000000000000000000000000')).balance;
 	const web3 = new Web3();
@@ -126,8 +128,8 @@ const fetchTx = async (address) => {
 	});
 	const finance = new Finance.Finance(
 		result.address,
-		'https://api.thegraph.com/subgraphs/name/0xgabi/superdao-finance-rinkeby',
-	);
+		FINANCE_APP_SUBGRAPH_URL,
+		);
 	console.log(await finance.transactions());
 	const txlist = await finance.transactions();
 	const web3 = new Web3();
@@ -150,7 +152,7 @@ const txSocket = async (address, callbck, id) => {
 	});
 	const finance = new Finance.Finance(
 		result.address,
-		'https://api.thegraph.com/subgraphs/name/0xgabi/superdao-finance-rinkeby',
+		FINANCE_APP_SUBGRAPH_URL,
 	);
 	await finance.onTransactions((txlist)=>{
 		if (!status) {
