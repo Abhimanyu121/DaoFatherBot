@@ -10,6 +10,8 @@ module.exports = {
 		const { commands } = message.client;
 
 		if (!args.length) {
+			data.push('You can create new DAO here https://rinkeby.aragon.org/#/');
+			data.push('If you already have a DAO and want to register it, use the given command.\n!register DAOName 0xAddress');
 			data.push('Here\'s a list of all my commands:');
 			data.push(commands.map(command => command.name).join(', '));
 			data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);

@@ -21,7 +21,7 @@ module.exports = {
 			else {
 				return bot.sendMessage(
 					id,
-					'Send\n/register <DAO Name> <DAO Aragon Address>\nExample:\n/register SuperDAO 0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C',
+					'Send\n/register <DAO Name> <DAO Aragon Address>\nExample:\n/register SuperDAO 0xc2E7B13306a2f2b9dbE4149e6eA4eC30EaCa8e5C\nIf you want to make a new DAO head over to https://rinkeby.aragon.org/#/',
 				);
 			}
 		};

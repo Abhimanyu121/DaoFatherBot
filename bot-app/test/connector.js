@@ -141,4 +141,4 @@ const processTx = (txlist) => {
 	console.log(txlist[txlist.length - 1]);
 	return txlist[txlist.length - 1];
 };
-fetchVotes();
+fetchVotesno();
