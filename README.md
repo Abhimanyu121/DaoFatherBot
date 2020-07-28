@@ -95,8 +95,3 @@ Some of the features are:-
 3. Requesting more features from Aragon in their Aragon Connect to make this bot even better.
 4. Making the bot more responsive.
 
-## Feedback
-1. Manank Patni - Active Gitcoiner <br> <img src="https://i.imgur.com/QqZudUX.jpg" width="400">
-<br>
-<br>
-2. James Young - Collab land <img src="https://cdn.discordapp.com/attachments/690649470215520349/737275913011724368/Screenshot_20200727-171232.png" width="400">
