@@ -7,3 +7,17 @@ services:
       - ./bot-app:/usr/src/app
       - /usr/src/app/node_modules
     command: yarn start
+    
+    bots2:
+    build: ./bot-app
+    volumes:
+      - ./bot-app:/usr/src/app
+      - /usr/src/app/node_modules
+    command: yarn start
+    
+    bots3:
+    build: ./bot-app
+    volumes:
+      - ./bot-app:/usr/src/app
+      - /usr/src/app/node_modules
+    command: yarn start
