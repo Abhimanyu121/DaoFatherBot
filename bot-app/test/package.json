@@ -13,7 +13,7 @@
     "@aragon/connect": "^0.4.2",
     "@aragon/connect-thegraph-tokens": "^0.4.2",
     "@aragon/connect-thegraph-voting": "^0.4.2",
-    "firebase-admin": "^9.0.0",
+    "firebase-admin": "^11.4.1",
     "telebot": "^1.4.1",
     "web3": "^1.2.11"
   }
